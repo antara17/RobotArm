@@ -30,15 +30,14 @@ except Exception as e:
 recognizer = KaldiRecognizer(model, samplerate)
 
 # Open an input audio stream
-with sd.RawInputStream(samplerate=samplerate, blocksize = 8000, device=None, dtype='int16',
-                        channels=1) as stream:#, callback=audio_callback):
+with sd.RawInputStream(samplerate=samplerate, blocksize=8000, device=None, dtype='int16',
+                        channels=1) as stream:
     print("Listening...")
     while True:
-        #data = q.get()
         data, _ = stream.read(4000)
-        if recognizer.AcceptWaveform(data):
+        data_bytes = data.tobytes()  # convert to bytes
+        if recognizer.AcceptWaveform(data_bytes):
             result = json.loads(recognizer.Result())
             print(result)
-
             if "time to go eat" in result.get("text", "").lower():
                 print("found the correct phrase")
