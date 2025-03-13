@@ -4,9 +4,11 @@ import json
 import sounddevice as sd
 from vosk import Model, KaldiRecognizer
 
+sys.path.append('/home/pi/ArmPi/')
+
 
 # Load the Vosk model
-model = Model("ArmPi/Functions/vosk-model-small-en-us-0.15")
+model = Model("vosk-model-small-en-us-0.15")
 
 # Create a queue to hold audio data
 q = queue.Queue()
