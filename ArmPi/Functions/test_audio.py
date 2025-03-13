@@ -13,10 +13,10 @@ model = Model("vosk-model-small-en-us-0.15")
 q = queue.Queue()
 
 # Callback function to collect audio data
-def audio_callback(indata, frames, time, status):
-    if status:
-        print(status, flush=True)
-    q.put(bytes(indata))
+# def audio_callback(indata, frames, time, status):
+#     if status:
+#         print(status, flush=True)
+#     q.put(bytes(indata))
 
 # Query default input device and get its samplerate
 try:
@@ -31,10 +31,14 @@ recognizer = KaldiRecognizer(model, samplerate)
 
 # Open an input audio stream
 with sd.RawInputStream(samplerate=samplerate, blocksize = 8000, device=None, dtype='int16',
-                        channels=1, callback=audio_callback):
+                        channels=1) as stream:#, callback=audio_callback):
     print("Listening...")
     while True:
-        data = q.get()
+        #data = q.get()
+        data, _ = stream.read(4000)
         if recognizer.AcceptWaveform(data):
             result = json.loads(recognizer.Result())
             print(result)
+
+            if "time to go eat" in result.get("text", "").lower():
+                print("found the correct phrase")
