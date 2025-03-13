@@ -39,9 +39,12 @@ def audio_thread():
             #     print("Partial result:", partial_result)
 
 # Create and start the audio processing thread
-thread = threading.Thread(target=audio_thread, daemon=True)
-thread.start()
+# thread = threading.Thread(target=audio_thread, daemon=True)
+# thread.start()
 
-# Continue with other code in the main thread as needed
-while True:
-    pass  # Replace with your main thread tasks or a proper exit condition
+# # Continue with other code in the main thread as needed
+# while True:
+#     pass  # Replace with your main thread tasks or a proper exit condition
+
+if __name__ == "__main__":
+    audio_thread()
