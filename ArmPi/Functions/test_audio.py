@@ -9,16 +9,7 @@ sys.path.append('/home/pi/ArmPi/')
 
 # Load the Vosk model
 model = Model("vosk-model-small-en-us-0.15")
-# Create a queue to hold audio data
-q = queue.Queue()
 
-# Callback function to collect audio data
-# def audio_callback(indata, frames, time, status):
-#     if status:
-#         print(status, flush=True)
-#     q.put(bytes(indata))
-
-# Query default input device and get its samplerate
 try:
     device_info = sd.query_devices(None, 'input')
     samplerate = int(device_info['default_samplerate'])
