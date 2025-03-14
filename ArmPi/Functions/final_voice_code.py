@@ -214,7 +214,7 @@ def wait_for_activation_phrase(activation_phrase="time to go eat"):
         print("Listening for the activation phrase...")
         while True:
             data, _ = stream.read(4000)
-            data_bytes = data.tobytes()
+            data_bytes = bytes(data)
             if recognizer.AcceptWaveform(data_bytes):
                 result = json.loads(recognizer.Result())
                 recognized_text = result.get("text", "").lower()

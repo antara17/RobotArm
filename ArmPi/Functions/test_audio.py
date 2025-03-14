@@ -26,7 +26,7 @@ with sd.RawInputStream(samplerate=samplerate, blocksize=8000, device=None, dtype
     print("Listening...")
     while True:
         data, _ = stream.read(4000)
-        data_bytes = data.tobytes()  # convert to bytes
+        data_bytes = bytes(data)  # convert to bytes
         if recognizer.AcceptWaveform(data_bytes):
             result = json.loads(recognizer.Result())
             print(result)
