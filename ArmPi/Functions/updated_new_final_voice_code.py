@@ -441,7 +441,7 @@ if __name__ == "__main__":
             motion_system.execute_cycle(requested_color)
         else:
             # print(f"Requested {requested_color} block not detected. Please place a {requested_color} block and try again.")
-            print(simple_colors.red(f"\nRequested {requested_color} block not detected. Please place a {requested_color} block and try again.",['bold', 'underline']))
+            print(simple_colors.red(f"\nRequested {requested_color} block not detected. Please place a {requested_color} block and try again.",['bold', 'underlined']))
         
         # Reset the target filter for the next cycle
         perception_system.target_color_filter = None
