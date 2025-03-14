@@ -108,9 +108,8 @@ class Perception:
         # Find objects of interest for all target colors
         self.detect_color_objects(lab_image)
 
-        # Default: no detection updated this frame.
         detection_updated = False
-        
+
         # If a target color filter is set, try to update detection info only for that color.
         if self.target_color_filter is not None:
             for (color, contour, area) in self.detections:
@@ -128,7 +127,7 @@ class Perception:
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, 
                                 self.color_display_values[color], 1)
                     
-                    # Update detection info for the requested color
+                    # Update detection info for the requested color (optional: you may choose to update with the best candidate)
                     self.detected_contour = contour
                     self.detected_color = color
                     self.detected_contour_area = area
@@ -145,7 +144,7 @@ class Perception:
                     self.current_detected_color = color
                     self.display_color = self.color_display_values[color]
                     detection_updated = True
-                    break  # use the first matching detection
+                    # Don't break; continue to draw all matching detections
 
         # If no target filter is set or if no matching detection found, fallback to consensus (or none)
         if not detection_updated:
@@ -164,10 +163,10 @@ class Perception:
         
         # Display current detected color
         cv2.putText(frame, f'Color: {self.current_detected_color}', 
-                   (10, height - 10), cv2.FONT_HERSHEY_SIMPLEX, 
-                   0.65, self.display_color, 2)
+                (10, height - 10), cv2.FONT_HERSHEY_SIMPLEX, 
+                0.65, self.display_color, 2)
         
-        # Reset detections list and temporary single-detection variables for next frame
+        # Reset detections for the next frame (optional: consider keeping last valid detection for a short time)
         self.detections = []
         self.detected_contour = None
         self.detected_contour_area = 0
