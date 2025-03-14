@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 import math
 import time
+import simple_colors
 sys.path.append('/home/pi/ArmPi/')
 import Camera
 from LABConfig import color_range
@@ -389,6 +390,7 @@ def wait_for_pickup_command():
     recognizer = KaldiRecognizer(model, samplerate)
     valid_colors = ["red", "green", "blue", "read"]
     print("Listening for a pickup command (e.g., 'pick up red block')...")
+    
     with sd.RawInputStream(samplerate=samplerate, blocksize=8000, device=None,
                            dtype='int16', channels=1) as stream:
         while True:
@@ -402,7 +404,14 @@ def wait_for_pickup_command():
                 if "pick up" in recognized_text:
                     for color in valid_colors:
                         if color in recognized_text:
-                            print(f"Command to pick up {color} block recognized.")
+                            # print(f"Command to pick up {color} block recognized.")
+                            if color == "red":
+                                print(f"\nCommand to pick up "+simple_colors.red(f"{color}", ['bold'])+" block recognized.")
+                            elif color == "green":
+                                print(f"\nCommand to pick up "+simple_colors.green(f"{color}", ['bold'])+" block recognized.")
+                            elif color == "blue":
+                                print(f"\nCommand to pick up "+simple_colors.blue(f"{color}", ['bold'])+" block recognized.")
+                            
                             return color
 
 if __name__ == "__main__":
@@ -431,7 +440,8 @@ if __name__ == "__main__":
         if perception_system.current_detected_color == requested_color:
             motion_system.execute_cycle(requested_color)
         else:
-            print(f"Requested {requested_color} block not detected. Please place a {requested_color} block and try again.")
+            # print(f"Requested {requested_color} block not detected. Please place a {requested_color} block and try again.")
+            print(simple_colors.red(f"\nRequested {requested_color} block not detected. Please place a {requested_color} block and try again.",['bold', 'underline']))
         
         # Reset the target filter for the next cycle
         perception_system.target_color_filter = None
